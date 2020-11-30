@@ -36,7 +36,7 @@
           <theme-settings></theme-settings>
         </v-navigation-drawer>
         <v-navigation-drawer
-          class="setting-drawer"
+          class="setting-right-drawer"
           temporary
           right
           v-model="drawerRightWidgets"

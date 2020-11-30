@@ -2,157 +2,87 @@
   <div id="pageDashboard">
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
-        <!-- mini statistic start -->
-        <v-flex lg3 sm6 xs12>
-          <mini-statistic
-            icon="fa fa-facebook"
-            title="100+"
-            sub-title="Likes"
-            color="indigo"
-          >
-          </mini-statistic>
-        </v-flex>
-        <v-flex lg3 sm6 xs12>
-          <mini-statistic
-            icon="fa fa-google"
-            title="150+"
-            sub-title="Connections"
-            color="red"
-          >
-          </mini-statistic>
-        </v-flex>
-        <v-flex lg3 sm6 xs12>
-          <mini-statistic
-            icon="fa fa-twitter"
-            title="200+"
-            sub-title="Followers"
-            color="light-blue"
-          >
-          </mini-statistic>
-        </v-flex>
-        <v-flex lg3 sm6 xs12>
-          <mini-statistic
-            icon="fa fa-instagram"
-            title="50+"
-            sub-title="Shots"
-            color="purple"
-          >
-          </mini-statistic>
-        </v-flex>
-        <!-- mini statistic  end -->
-        <v-flex lg8 sm12 xs12>
-          <v-widget title="Site Traffic" content-bg="white">
-            <v-btn icon slot="widget-header-action">
-              <v-icon class="text--secondary">refresh</v-icon>
-            </v-btn>
-            <div slot="widget-content">
-              <e-chart
-                :path-option="[
-                  ['dataset.source', siteTrafficData],
-                  ['color', [color.lightBlue.base, color.green.lighten1]],
-                  ['legend.show', true],
-                  ['xAxis.axisLabel.show', true],
-                  ['yAxis.axisLabel.show', true],
-                  ['grid.left', '2%'],
-                  ['grid.bottom', '5%'],
-                  ['grid.right', '3%'],
-                  ['series[0].type', 'bar'],
-                  ['series[0].areaStyle', {}],
-                  ['series[0].smooth', true],
-                  ['series[1].smooth', true],
-                  ['series[1].type', 'bar'],
-                  ['series[1].areaStyle', {}],
-                ]"
-                height="400px"
-                width="85%"
-              >
-              </e-chart>
-            </div>
-          </v-widget>
-        </v-flex>
-        <v-flex lg4 sm12 xs12>
-          <v-widget title="Top Location" content-bg="white">
-            <div slot="widget-content">
-              <e-chart
-                :path-option="[
-                  ['dataset.source', locationData],
-                  ['legend.bottom', '0'],
-                  ['color', [color.lightBlue.base, color.indigo.base, color.pink.base, color.green.base, color.cyan.base, color.teal.base]],
-                  ['xAxis.show', false],
-                  ['yAxis.show', false],
-                  ['series[0].type', 'pie'],
-                  ['series[0].avoidLabelOverlap', true],
-                  ['series[0].radius', ['50%', '70%']],
-                ]"
-                height="400px"
-                width="100%"
-              >
-              </e-chart>
-            </div>
-          </v-widget>
-        </v-flex>
-        <!-- social/weather card start -->
-        <v-flex lg4 sm12 xs12>
-          <profile-card>
-          </profile-card>
-        </v-flex>
-        <v-flex lg4 sm12 xs12>
-          <box-chart
-            card-color="indigo"
-            title="Trending"
-            sub-title="10%"
-            icon="trending_up"
-            :data="siteTrafficData"
-            :chart-color="[color.indigo.lighten1]"
-            type="line"
-          >
-          </box-chart>
-          <box-chart class="mt-4"
-                     card-color="pink"
-                     title="Page views"
-                     sub-title="10%"
-                     icon="trending_up"
-                     :data="siteTrafficData"
-                     :chart-color="[color.pink.darken1, 'rgba(255,255,255,0.3)']"
-                     gradient
-                     type="area"
-          >
-          </box-chart>
-        </v-flex>
-        <!-- statistic section -->
-        <v-flex lg4 sm12 xs12>
-          <linear-statistic
-            title="Sales"
-            sub-title="Sales increase"
-            icon="trending_up"
-            color="success"
-            :value="15"
-          >
-          </linear-statistic>
-          <linear-statistic class="my-4"
-                            title="Orders"
-                            sub-title="Increase"
-                            icon="trending_up"
-                            color="pink"
-                            :value="30"
-          >
-          </linear-statistic>
-          <linear-statistic class="my-4"
-                            title="Revenue"
-                            sub-title="Revenue increase"
-                            icon="trending_up"
-                            color="primary"
-                            :value="50"
-          >
-          </linear-statistic>
-          <linear-statistic class="mt-4"
-                            title="Cost"
-                            sub-title="Cost reduce"
-                            icon="trending_down"
-                            color="orange"
-                            :value="25"
-          >
-          </linear-statistic>
+        <v-flex row v-for="(widget, index) in $store.state.widgets" :key="index">
+          <!-- mini statistic start -->
+          <v-row-expand-transition lg3 sm6 xs12>
+            <mini-statistic v-if="widget.type === widgets['MINI-STATISTIC']"
+                            :icon=widget.icon
+                            :title=widget.title
+                            :sub-title=widget.subTitle
+                            :color=widget.color
+            >
+            </mini-statistic>
+          </v-row-expand-transition>
+
+          <!-- mini statistic  end -->
+
+          <!-- echart start -->
+          <v-row-expand-transition lg8 sm12 xs12>
+            <v-widget v-if="widget.type === widgets.ECHART"
+                      :title=widget.title content-bg="white">
+              <v-btn icon slot="widget-header-action">
+                <v-icon class="text--secondary">refresh</v-icon>
+              </v-btn>
+              <div slot="widget-content">
+                <e-chart v-if="widget.chartType"
+                         :path-option="[
+                        ['dataset.source', widget.data],
+                        ['color', [color.lightBlue.base, color.green.lighten1]],
+                        ['legend.show', true],
+                        ['xAxis.axisLabel.show', true],
+                        ['yAxis.axisLabel.show', true],
+                        ['grid.left', '2%'],
+                        ['grid.bottom', '5%'],
+                        ['grid.right', '3%'],
+                        ['series[0].type', 'bar'],
+                        ['series[0].areaStyle', {}],
+                        ['series[0].smooth', true],
+                        ['series[1].smooth', true],
+                        ['series[1].type', widget.chartType],
+                        ['series[1].areaStyle', {}],
+                      ]"
+                         height="400px"
+                         width="85%"
+                >
+                </e-chart>
+              </div>
+            </v-widget>
+          </v-row-expand-transition>
+          <!-- chart end -->
+
+          <!-- profile card start -->
+          <v-row-expand-transition lg4 sm12 xs12>
+            <profile-card v-if="widget.type === widgets['PROFILE-CARD']">
+            </profile-card>
+          </v-row-expand-transition>
+          <!-- profile card end -->
+
+          <!-- box chart start -->
+          <v-row-expand-transition lg4 sm12 xs12>
+            <box-chart v-if="widget.type === widgets.CHART"
+                       :card-color=widget.color
+                       :title=widget.title
+                       :sub-title=widget.subTitle
+                       icon="trending_up"
+                       :data="siteTrafficData"
+                       :chart-color="[color.indigo.lighten1]"
+                       :type=widget.chartType
+            ></box-chart>
+
+          </v-row-expand-transition>
+
+          <!-- statistic section start -->
+          <v-row-expand-transition lg4 sm12 xs12>
+            <linear-statistic v-if="widget.type === widgets.STATISTIC"
+              :title= widget.title
+              :sub-title= widget.subTitle
+              :icon= "widget.subTitle ? widget.subTitle.includes('increase') ? 'trending_up' : 'trending_down' : null"
+              :color= widget.color
+              :value= widget.value
+            >
+            </linear-statistic>
+        </v-row-expand-transition>
+          <!-- statistic section end -->
         </v-flex>
         <!-- Circle statistic -->
         <v-flex lg4 sm12 xs12 v-for="(item,index) in trending" :key="'c-trending'+index">
@@ -210,6 +140,7 @@
   import BoxChart from '@/components/widgets/chart/BoxChart';
   import CircleStatistic from '@/components/widgets/statistic/CircleStatistic';
   import LinearStatistic from '@/components/widgets/statistic/LinearStatistic';
+  import {WIDGETS} from "../constants";
 
   export default {
     layout: 'dashboard',
@@ -229,6 +160,7 @@
       PlainTableOrder
     },
     data: () => ({
+      widgets: WIDGETS,
       color: Material,
       selectedTab: 'tab-1',
       linearTrending: [
@@ -321,19 +253,18 @@
       ]
     }),
     computed: {
-      activity () {
+      activity() {
         return API.getActivity();
       },
-      posts () {
+      posts() {
         return API.getPost(3);
       },
-      siteTrafficData () {
+      siteTrafficData() {
         return API.getMonthVisit;
       },
-      locationData () {
+      locationData() {
         return API.getLocation;
       }
     },
-
   };
 </script>
