@@ -1,10 +1,12 @@
 import API from '@/api';
 
+export const strict = false
 
 export const state = () => ({
   drawer: true,
   drawerRightSettings: false,
   drawerRightWidgets: false,
+  widgetIndexEditing: null,
   widgets: [
     {
       id: 1,
@@ -82,5 +84,13 @@ export const mutations = {
   },
   drawerRightWidgets(state, val) {
     state.drawerRightWidgets = val
+  },
+
+  getWidgets(state, val) {
+    state.widgets = val
+  },
+
+  widgetIndexEditing(state, val) {
+    state.widgetIndexEditing = val
   }
 }

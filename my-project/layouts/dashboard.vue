@@ -36,14 +36,15 @@
           <theme-settings></theme-settings>
         </v-navigation-drawer>
         <v-navigation-drawer
+
           class="setting-right-drawer"
-          temporary
           right
           v-model="drawerRightWidgets"
           hide-overlay
           fixed
         >
-          <p>Need to define widget settings</p>
+          <v-icon class="text--secondary" v-on:click="drawerRightWidgets = !drawerRightWidgets ">close</v-icon>
+          <dashboard-settings :widgets="getWidgets"></dashboard-settings>
         </v-navigation-drawer>
       </v-app>
     </template>
@@ -70,9 +71,11 @@
   import AppFab from '@/components/AppFab'
   import PageHeader from '@/components/PageHeader'
   import ThemeSettings from '@/components/ThemeSettings'
+  import DashboardSettings from "../components/DashboardSettings";
 
   export default {
     components: {
+      DashboardSettings,
       AppDrawer,
       AppToolbar,
       AppFab,
@@ -102,6 +105,14 @@
         },
         set(val) {
           this.$store.commit('drawerRightWidgets', val)
+        }
+      },
+      getWidgets: {
+        get() {
+          return this.$store.state.widgets
+        },
+        set(val) {
+          this.$store.commit('  getWidgets', val)
         }
       },
     },

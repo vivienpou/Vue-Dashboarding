@@ -9,13 +9,14 @@
             </div>
           </div>
           <div class="sm6 xs6 flex text-sm-center py-3 white--text" :class="color">
+            <slot name="mini-statistic-header-action"></slot>
             <div class="headline">{{ title }}</div>
             <span class="caption">{{ subTitle }}</span>
           </div>
         </div>
       </v-container>
     </v-card-text>
-  </v-card>    
+  </v-card>
 </template>
 
 <script>

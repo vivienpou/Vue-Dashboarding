@@ -10,7 +10,22 @@
                             :title=widget.title
                             :sub-title=widget.subTitle
                             :color=widget.color
+                            v-bind:style="[widget.id === currentEditedWidget? {'border': '2px solid red'} : {'border': 'none'}]"
             >
+              <v-icon slot="mini-statistic-header-action" class="text--secondary"
+                      @mouseover="isHovering = true"
+                      @mouseout="isHovering = false"
+                      v-bind:class="[isHovering ? 'pointer' : '']" v-if="$store.state.drawerRightWidgets"
+                      v-on:click="editWidget(widget.id)">edit
+              </v-icon>
+              <v-icon slot="mini-statistic-header-action" class="text--secondary"
+                      @mouseover="isHovering = true"
+                      @mouseout="isHovering = false"
+                      v-bind:class="[isHovering ? 'pointer' : '']" v-if="$store.state.drawerRightWidgets"
+                      v-on:click="deleteWidget(widget.id)">delete
+              </v-icon>
+
+
             </mini-statistic>
           </v-row-expand-transition>
 
@@ -21,7 +36,7 @@
             <v-widget v-if="widget.type === widgets.ECHART"
                       :title=widget.title content-bg="white">
               <v-btn icon slot="widget-header-action">
-                <v-icon class="text--secondary">refresh</v-icon>
+                <v-icon class="text--secondary">edit</v-icon>
               </v-btn>
               <div slot="widget-content">
                 <e-chart v-if="widget.chartType"
@@ -74,14 +89,14 @@
           <!-- statistic section start -->
           <v-row-expand-transition lg4 sm12 xs12>
             <linear-statistic v-if="widget.type === widgets.STATISTIC"
-              :title= widget.title
-              :sub-title= widget.subTitle
-              :icon= "widget.subTitle ? widget.subTitle.includes('increase') ? 'trending_up' : 'trending_down' : null"
-              :color= widget.color
-              :value= widget.value
+                              :title=widget.title
+                              :sub-title=widget.subTitle
+                              :icon="widget.subTitle ? widget.subTitle.includes('increase') ? 'trending_up' : 'trending_down' : null"
+                              :color=widget.color
+                              :value=widget.value
             >
             </linear-statistic>
-        </v-row-expand-transition>
+          </v-row-expand-transition>
           <!-- statistic section end -->
         </v-flex>
         <!-- Circle statistic -->
@@ -161,6 +176,8 @@
     },
     data: () => ({
       widgets: WIDGETS,
+      isHovering: false,
+      currentEditedWidget: null,
       color: Material,
       selectedTab: 'tab-1',
       linearTrending: [
@@ -264,7 +281,69 @@
       },
       locationData() {
         return API.getLocation;
+      },
+      getWidgets: {
+        get() {
+          return this.$store.state.widgets
+        },
+        set(val) {
+          this.$store.commit('getWidgets', val)
+        }
+      },
+      getwidgetIndexEditing: {
+        get() {
+          return this.$store.state.widgetIndexEditing
+        },
+        set(val) {
+          this.$store.commit('widgetIndexEditing', val)
+        }
+      },
+      drawerRightWidgets: {
+        get() {
+          return this.$store.state.drawerRightWidgets
+        },
+        set(val) {
+          this.$store.commit('drawerRightWidgets', val)
+        }
+      },
+    },
+    methods: {
+      editWidget(id) {
+        this.currentEditedWidget = id;
+        this.getwidgetIndexEditing = id;
+        // const widget = this.getWidgets.filter(element => element.id === id);
+        // widget[0].edit = true;
+        // const updateWidgets = [
+        //   ...this.getWidgets.filter(element => element.id !== id),
+        //   widget[0]
+        // ];
+        //
+        // updateWidgets.sort(function (a, b) {
+        //   return a.id - b.id;
+        // });
+        // this.$store.commit('getWidgets', updateWidgets);
+      },
+      deleteWidget(id) {
+        console.log('you try to delete widget id :', id);
       }
     },
+    watch: {
+      drawerRightWidgets(oldDrawer, newDrawer) {
+        // Our fancy notification (2).
+        if (oldDrawer === false && newDrawer === true) {
+          this.currentEditedWidget = null;
+          // const widgetIndexEditing = this.getWidgets.filter(element => element.edit === true);
+          // widgetIndexEditing[0].edit = false;
+          // const updateWidgets = [
+          //   ...this.getWidgets.filter(element => element.edit !== true)];
+          //
+          // updateWidgets.sort(function (a, b) {
+          //   return a.id - b.id;
+          // });
+          // this.$store.commit('getWidgets', updateWidgets);
+        }
+      }
+    }
+
   };
 </script>
