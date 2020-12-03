@@ -71,7 +71,7 @@
   import AppFab from '@/components/AppFab'
   import PageHeader from '@/components/PageHeader'
   import ThemeSettings from '@/components/ThemeSettings'
-  import DashboardSettings from "../components/DashboardSettings";
+  import DashboardSettings from "@/components/DashboardSettings";
 
   export default {
     components: {
