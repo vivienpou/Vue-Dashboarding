@@ -41,7 +41,13 @@
               :items="colors"
               label="Color"
               required
-            ></v-select>
+            >
+              <template v-slot:prepend-item>
+                <v-list-item>
+                  <span class="red">Red item</span>
+                </v-list-item>
+              </template>
+            </v-select>
           </v-col>
           <v-col
             cols="12"
@@ -72,13 +78,23 @@
       widgets: Array,
     },
     data: () => ({
-      colors: ['red', 'blue', 'yellow'],
+      colors: ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+        '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+        '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+        '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+        '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+        '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+        '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
+        '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+        '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
+        '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'],
       icons: ['fa fa-facebook', 'fa fa-google'],
       form: null,
-      valid: true
+      valid: true,
+      formWidgetsAtInit: []
     }),
     computed: {
-      getWidgetInfo : {
+      getWidgetInfo: {
         get() {
           return this.$store.state.widgets.filter(item => item.id === this.$store.state.widgetIndexEditing)[0];
         },
@@ -91,18 +107,17 @@
     updated() {
       this.form = this.getWidgetInfo;
     },
-    watch: {
-      form(newValue) {
-        console.log('new value form :', newValue);
-      }
+    mounted() {
+      this.formWidgetsAtInit = JSON.parse(localStorage.getItem('widgets'));
     },
     methods: {
-      submit () {
-        console.log('submit');
-        this.getWidgetInfo = this.form;
+      submit() {
+        localStorage.setItem('widgets', JSON.stringify(this.$store.state.widgets));
+        this.$store.state.drawerRightWidgets = false;
       },
-      cancel () {
-        console.log('cancel');
+      cancel() {
+        this.$store.state.widgets = this.formWidgetsAtInit;
+        this.$store.state.drawerRightWidgets = false;
       }
     }
 

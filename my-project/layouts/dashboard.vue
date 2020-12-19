@@ -21,7 +21,8 @@
         <!-- Go to top -->
         <app-fab></app-fab>
         <!-- theme setting -->
-        <v-btn small fab dark falt fixed top="top" right="right" class="setting-fab" color="red"
+        <v-btn v-if="!drawerRightWidgets" small fab dark falt fixed top="top" right="right" class="setting-fab"
+               color="red"
                @click="openWidgetSettings">
           <v-icon>settings</v-icon>
         </v-btn>
@@ -115,6 +116,11 @@
           this.$store.commit('  getWidgets', val)
         }
       },
+    },
+    mounted() {
+      if (localStorage.widgets) {
+        this.$store.state.widgets = JSON.parse(localStorage.getItem('widgets'));
+      }
     },
 
     methods: {

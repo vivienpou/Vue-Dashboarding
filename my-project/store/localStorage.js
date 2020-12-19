@@ -1,7 +1,5 @@
 import API from '@/api';
 
-export const strict = false
-
 export const state = () => ({
   drawer: true,
   drawerRightSettings: false,
@@ -14,7 +12,7 @@ export const state = () => ({
       icon: "fa fa-facebook",
       title: "100+",
       subTitle: "Likes",
-      color: "#FFB399"
+      color: "blue"
     },
     {
       id: 2,
@@ -22,7 +20,7 @@ export const state = () => ({
       icon: "fa fa-google",
       title: "150+",
       subTitle: "Connections",
-      color: "#B33300"
+      color: "red"
     },
     {
       id: 3,
@@ -94,3 +92,4 @@ export const mutations = {
     state.widgetIndexEditing = val
   }
 }
+

@@ -8,7 +8,7 @@
               <v-icon size="56px" :color="color">{{icon}}</v-icon>
             </div>
           </div>
-          <div class="sm6 xs6 flex text-sm-center py-3 white--text" :class="color">
+          <div class="sm6 xs6 flex text-sm-center py-3 white--text" :style="{'background-color': color}">
             <slot name="mini-statistic-header-action"></slot>
             <div class="headline">{{ title }}</div>
             <span class="caption">{{ subTitle }}</span>
