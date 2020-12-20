@@ -125,26 +125,31 @@
 
     methods: {
       openWidgetSettings() {
-        this.$vuetify.goTo(0)
+        // this.$vuetify.goTo(0)
         this.drawerRightWidgets = (!this.drawerRightWidgets)
       }
     }
   }
 </script>
 
-<style lang="stylus" scoped>
-  .setting-fab
+<style lang="scss" scoped>
+  .setting-fab {
     top: 50% !important;
     right: 0;
-    border-radius: 0
+    border-radius: 0;
+  }
 
-  .page-wrapper
+
+  .page-wrapper {
     min-height: calc(100vh - 64px - 50px - 81px);
-    margin-bottom 50px;
+    margin-bottom: 50px;
+  }
 
-  .app--footer
-    position absolute;
-    bottom 0;
-    width 100%;
+  .app--footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
 
 </style>

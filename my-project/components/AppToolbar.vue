@@ -1,19 +1,13 @@
 <template>
-  <v-toolbar
-    color="primary"
-    fixed
-    dark
-    app
-  >
+  <v-app-bar color="primary" fixed dark app>
     <v-toolbar-title class="ml-0 pl-3">
-      <v-toolbar-side-icon @click.stop="toggleDrawer()"></v-toolbar-side-icon>
-    </v-toolbar-title>
+      <v-app-bar-nav-icon @click.stop="toggleDrawer()"></v-app-bar-nav-icon>    </v-toolbar-title>
     <v-text-field
       flat
       solo-inverted
       prepend-icon="search"
       label="Search"
-      class="hidden-sm-and-down"
+      class="hidden-sm-and-down mt-auto"
     >
     </v-text-field>
     <v-spacer></v-spacer>
@@ -21,25 +15,35 @@
       <v-icon>fullscreen</v-icon>
     </v-btn>
     <v-menu offset-y origin="center center" :nudge-right="140" :nudge-bottom="10" transition="scale-transition">
-      <v-btn icon large flat slot="activator">
-        <v-avatar size="30px">
-          <img src="https://avatars0.githubusercontent.com/u/38348371?s=400&v=4" alt="VivienPou"/>
-        </v-avatar>
-      </v-btn>
+      <template v-slot:activator="{ on }">
+        <v-btn icon text v-on="on">
+          <v-avatar size="30px">
+            <img src="https://avatars0.githubusercontent.com/u/38348371?s=400&v=4" alt="VivienPou"/>
+          </v-avatar>
+        </v-btn>
+      </template>
       <v-list class="pa-0">
-        <v-list-tile v-for="(item,index) in items" :to="!item.href ? { name: item.name } : null" :href="item.href"
-                     @click="item.click" ripple="ripple" :disabled="item.disabled" :target="item.target" rel="noopener"
-                     :key="index">
-          <v-list-tile-action v-if="item.icon">
+        <v-list-item
+          v-for="(item,index) in items"
+          :to="!item.href ? { name: item.name } : null"
+          :href="item.href"
+          @click="item.click"
+          ripple="ripple"
+          :disabled="item.disabled"
+          :target="item.target"
+          rel="noopener"
+          :key="index"
+        >
+          <v-list-item-action v-if="item.icon">
             <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-menu>
-  </v-toolbar>
+  </v-app-bar>
 </template>
 <script>
   import NotificationList from '@/components/widgets/list/NotificationList';
@@ -78,7 +82,7 @@
     },
     computed: {
       toolbarColor() {
-        return this.$vuetify.options.extra.mainNav;
+        // return this.$vuetify.options.extra.mainNav;
       }
     },
     methods: {

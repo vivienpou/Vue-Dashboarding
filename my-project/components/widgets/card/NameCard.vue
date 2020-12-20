@@ -10,7 +10,7 @@
           <v-icon>more_vert</v-icon>
         </v-flex>
       </v-layout>
-    </v-card-media>    
+    </v-card-media>
     <v-card-text>
       <div class="layout ma-0 align-center" :class="computeCardLayout">
         <v-avatar :size="computeAvatarSize" color="primary">
@@ -37,7 +37,7 @@
       <span>Nearby</span>
       <v-icon>place</v-icon>
     </v-btn>
-  </v-bottom-nav>   
+  </v-bottom-nav>
 </div>
 </template>
 
@@ -70,20 +70,20 @@ export default {
     bottomNav: {
       type: Boolean,
       default: false
-    },    
+    },
     topNav: {
       type: Boolean,
       default: false
-    },      
+    },
     mini: {
       type: Boolean,
       default: false
-    }    
+    }
   },
   data: () => ({
 
   }),
-  
+
   computed: {
     computeCardLayout () {
       return (this.mini) ? 'row' : 'column';
@@ -99,11 +99,11 @@ export default {
     },
 
     showBottomNav () {
-      return (this.mini === false && this.bottomNav); 
+      return (this.mini === false && this.bottomNav);
     },
 
     showTopNav () {
-      return (this.mini === false && this.topNav); 
+      return (this.mini === false && this.topNav);
     }
   },
 
@@ -115,8 +115,8 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
   .caption, .subheading {
-    font-weight:200;  
+    font-weight:200;
   }
 </style>

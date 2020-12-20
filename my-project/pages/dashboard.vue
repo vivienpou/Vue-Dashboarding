@@ -1,6 +1,5 @@
 <template>
-  <div id="pageDashboard">
-    <v-container grid-list-xl fluid>
+  <v-app :dark="true">    <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <v-flex row v-for="(widget, index) in $store.state.widgets" :key="index">
           <!-- mini statistic start -->
@@ -136,7 +135,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-  </div>
+  </v-app>
 </template>
 
 <script>
