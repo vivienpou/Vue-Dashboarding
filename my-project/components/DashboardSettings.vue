@@ -6,11 +6,11 @@
     <h5 v-if="getWidgetInfo">Widget {{getWidgetInfo.type}} : </h5>
     <v-form v-model="valid" v-if="$store.state.widgetIndexEditing && form"
     >
-      <v-container>
-        <v-row>
+      <v-container >
+        <v-row >
           <v-col
             cols="12"
-            md="4"
+            md="10"
           >
             <v-text-field
               v-model="form.title"
@@ -22,7 +22,7 @@
 
           <v-col
             cols="12"
-            md="4"
+            md="10"
           >
             <v-text-field
               v-model="form.subTitle"
@@ -34,7 +34,7 @@
 
           <v-col
             cols="12"
-            md="4"
+            md="10"
           >
             <v-select
               v-model="form.color"
@@ -42,27 +42,56 @@
               label="Color"
               required
             >
-              <template v-slot:prepend-item>
+              <template v-slot:selection="{ item, index }">
+                <v-chip text-color="white" :color="item" small @click="form.color=item"
+                >{{ item }}</v-chip>
+              </template>
+              <template v-slot:item="{ item }">
                 <v-list-item>
-                  <span class="red">Red item</span>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      <v-row no-gutters align="center">
+                        <v-chip text-color="white" :color="item" small @click="form.color=item"
+                        >{{ item }}</v-chip>
+                      </v-row>
+                    </v-list-item-title>
+                  </v-list-item-content>
                 </v-list-item>
               </template>
             </v-select>
           </v-col>
           <v-col
             cols="12"
-            md="4"
+            md="10"
           >
             <v-select
               v-model="form.icon"
               :items="icons"
               label="Icon"
               required
-            ></v-select>
+            >
+              <template v-slot:selection="{ item, index }">
+                <v-icon :color="form.color" :tag="item" small @click="form.icon=item"
+                >{{ item }}</v-icon>
+              </template>
+              <template v-slot:item="{ item }">
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      <v-row no-gutters align="center">
+                        <v-icon :color="form.color" :tag="item" small @click="form.icon=item"
+                        >{{ item }}</v-icon>
+                      </v-row>
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+            </v-select>
           </v-col>
-          <v-btn @click="cancel" color="grey">Cancel</v-btn>
-          <v-btn @click="submit" color="orange">Save</v-btn>
-
+          <v-row justify="center">
+            <v-btn @click="cancel" class="footer__actions  mr-2" color="grey">Cancel</v-btn>
+            <v-btn @click="submit" class="footer__actions" color="orange">Save</v-btn>
+          </v-row>
         </v-row>
       </v-container>
     </v-form>
@@ -126,5 +155,7 @@
 </script>
 
 <style scoped>
-
+  .footer__actions{
+    width: 70px;
+  }
 </style>

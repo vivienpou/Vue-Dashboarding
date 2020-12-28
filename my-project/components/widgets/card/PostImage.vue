@@ -3,11 +3,11 @@
 
     <v-card-media src="/static/nature/n3.jpeg" class="white--text">
     <v-card-text>
- 
+
     <v-divider></v-divider>
     <v-toolbar card color="white">
         <v-text-field
-        flat
+        text
         solo
         label="Comment here"
         append-icon="photo_camera"

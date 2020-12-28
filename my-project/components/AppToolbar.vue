@@ -3,7 +3,7 @@
     <v-toolbar-title class="ml-0 pl-3">
       <v-app-bar-nav-icon @click.stop="toggleDrawer()"></v-app-bar-nav-icon>    </v-toolbar-title>
     <v-text-field
-      flat
+      text
       solo-inverted
       prepend-icon="search"
       label="Search"

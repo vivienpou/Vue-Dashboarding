@@ -91,7 +91,6 @@
     },
     data: () => ({
       mini: false,
-      menuItems: menu,
       scrollSettings: {
         maxScrollbarLength: 160
       }
